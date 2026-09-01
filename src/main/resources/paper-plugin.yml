@@ -1,0 +1,11 @@
+name: VineriumEnforcement
+version: '1.0'
+author: SaintQd
+main: org.saintqd.vineriumenforcement.VineriumEnforcement
+api-version: 26.1.2
+description: VineriumEnforcement Plugin
+dependencies:
+  server:
+    VineriumLib:
+      load: BEFORE
+      required: true

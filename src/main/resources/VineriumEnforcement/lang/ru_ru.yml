@@ -1,0 +1,25 @@
+Lang:
+  not_enough_arguments: "<red>Недостаточно аргументов."
+  command_reload_message: "<green>Плагин перезагружен."
+  command_save_data_message: "<green>Данные правопорядка сохранены."
+  command_clear_tasks_message: "<green>Задачи плагина успешно сброшены."
+  no_permission: "<red>Нет прав!"
+  baton_stun_message: "<gold>Вы оглушены!"
+  baton_stun_hint: "<gold>Необходимо сначала снизить здоровье данного игрока до <yellow>{1} ед.</yellow>, чтобы оглушить его."
+  handcuffs_over_cuff_distance: "<red>Подойдите ближе, чтобы заковать данного игрока в наручники!"
+  handcuffs_title: "<blue>[ ЗАДЕРЖАН ]"
+  handcuffs_cuffer_message: "<gold>Вы заковали в наручники игрока <yellow>{1}</yellow>."
+  handcuffs_message: "<gold>Вы были закованы в наручники игроком <yellow>{1}</yellow>!"
+  handcuffed_message_hint: "<gold>Вы закованы в наручники и не можете взаимодействовать с окружением."
+  handcuffs_break_message: "<green>Вы освободились от наручников!"
+  handcuffs_escort_start: "<yellow>Вы начали конвоировать игрока <light_purple>{1}</light_purple>."
+  handcuffs_escort_stop: "<yellow>Вы прекратили конвоировать игрока <light_purple>{1}</light_purple>."
+  handcuffs_keys_user_message: "<green>Вы освободили от наручников игрока <light_purple>{1}</light_purple>."
+  handcuffs_keys_use_message: "<green>Вы были освобождены от наручников игроком <light_purple>{1}</light_purple>."
+  jail_no_worldguard: '<red>Система тюрем в данный момент отключена.'
+  jail_player_not_cuffed: '<red>Невозможно посадить игрока <gold>{1}</gold>: игрок не закован в наручники.'
+  jail_wrong_time: '<red>Вы можете посадить игрока в тюрьму максимум на <gold>{1} мин</gold>.'
+  jail_wrong_region: '<red>Вы можете посадить игрока в тюрьму только в специально обозначенном регионе тюрьмы.'
+  jail_receiver_message: '<gold>Вас посадил в тюрьму <light_purple>{1}</light_purple> на <yellow>{2} мин</yellow>.'
+  jail_success_message: '<green>Вы посадили в тюрьму игрока <light_purple>{1}</light_purple> на <yellow>{2} мин</yellow>.'
+  unjail_success_message: '<green>Вы выпустили из тюрьмы игрока <light_purple>{1}</light_purple>.'

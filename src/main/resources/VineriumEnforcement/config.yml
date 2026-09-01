@@ -1,0 +1,37 @@
+language: 'ru_ru'
+baton:
+  cooldown: 60
+  stun_period: 80
+  permission: 'vineriumenforcement.baton'
+  min_health_percent_to_stun: 0.5
+handcuffs:
+  min_progress: 50
+  max_progress: 60
+  max_cuff_distance: 3.0
+  min_pull_distance: 2.0
+  break_distance: 10.0
+  break_time: 1200
+  break_time_increase_per_attempt: 30
+  break_task_check_period: 40
+  permission: 'vineriumenforcement.handcuffs'
+  progress_format: '[||||||||||||||||||||]'
+  completed_progress_color: '<green>'
+  remaining_progress_color: '<gray>'
+  break_progress_format: '[||||||||||||||||||||]'
+  break_completed_progress_color: '<red>'
+  break_remaining_progress_color: '<gray>'
+jail:
+  max_time: 240
+  default_cell_name: 1
+  silent: true
+  silent_format: '-s'
+  command: 'cmi jail %player_name% %time%m %jail_name% %cell_name% %silent%'
+  unjail_command: 'cmi unjail %player_name%'
+escort:
+  task_period: 5
+cuffbreakers:
+  permission: 'vineriumenforcement.cuffbreakers'
+  remove_on_use: true
+text_display:
+  height_offset: 2.5
+  task_period: 10

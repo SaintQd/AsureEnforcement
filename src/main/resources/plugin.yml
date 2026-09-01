@@ -1,0 +1,10 @@
+name: VineriumEnforcement
+version: 1.0
+author: SaintQd
+main: org.saintqd.vineriumenforcement.VineriumEnforcement
+api-version: 1.21.11
+depend: [VineriumLib]
+permissions:
+  vineriumenforcement.admin:
+    description: Access to admin commands.
+    default: op
