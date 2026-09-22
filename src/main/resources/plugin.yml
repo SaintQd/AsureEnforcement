@@ -1,10 +1,10 @@
-name: VineriumEnforcement
+name: AsureEnforcement
 version: 1.0
 author: SaintQd
-main: org.saintqd.vineriumenforcement.VineriumEnforcement
-api-version: 1.21.11
-depend: [VineriumLib]
+main: org.saintqd.asureenforcement.AsureEnforcement
+api-version: 26.2
+depend: [AsureLib]
 permissions:
-  vineriumenforcement.admin:
+  asureenforcement.admin:
     description: Access to admin commands.
     default: op

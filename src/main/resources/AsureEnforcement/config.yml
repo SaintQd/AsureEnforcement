@@ -2,7 +2,7 @@ language: 'ru_ru'
 baton:
   cooldown: 60
   stun_period: 80
-  permission: 'vineriumenforcement.baton'
+  permission: 'asureenforcement.baton'
   min_health_percent_to_stun: 0.5
 handcuffs:
   min_progress: 50
@@ -13,7 +13,7 @@ handcuffs:
   break_time: 1200
   break_time_increase_per_attempt: 30
   break_task_check_period: 40
-  permission: 'vineriumenforcement.handcuffs'
+  permission: 'asureenforcement.handcuffs'
   progress_format: '[||||||||||||||||||||]'
   completed_progress_color: '<green>'
   remaining_progress_color: '<gray>'
@@ -30,7 +30,7 @@ jail:
 escort:
   task_period: 5
 cuffbreakers:
-  permission: 'vineriumenforcement.cuffbreakers'
+  permission: 'asureenforcement.cuffbreakers'
   remove_on_use: true
 text_display:
   height_offset: 2.5

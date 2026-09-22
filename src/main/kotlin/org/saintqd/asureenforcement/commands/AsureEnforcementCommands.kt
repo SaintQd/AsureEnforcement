@@ -1,4 +1,4 @@
-package org.saintqd.vineriumenforcement.commands
+package org.saintqd.asureenforcement.commands
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -11,25 +11,24 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.saintqd.vineriumenforcement.VineriumEnforcement
-import org.saintqd.vineriumenforcement.managers.EnforcementManager
-import org.saintqd.vineriumenforcement.worldguard.VinEnforcementFlags
-import org.saintqd.vineriumlib.VineriumLib
-import org.saintqd.vineriumlib.utils.VinUtils
+import org.saintqd.asureenforcement.AsureEnforcement
+import org.saintqd.asureenforcement.managers.EnforcementManager
+import org.saintqd.asureenforcement.worldguard.AsureEnforcementFlags
+import org.saintqd.asurelib.AsureLib
 
-class VinEnforcementCommands {
+class AsureEnforcementCommands {
 
     companion object {
-        fun setupCommands(plugin : VineriumEnforcement) {
+        fun setupCommands(plugin : AsureEnforcement) {
             val manager = plugin.lifecycleManager
             manager.registerEventHandler(LifecycleEvents.COMMANDS) {
                 val commands: Commands = it.registrar()
                 commands.register(
-                    Commands.literal("vinenforcement")
+                    Commands.literal("asureenforcement")
                         .executes { commandContext: CommandContext<CommandSourceStack> ->
                             commandContext.getSource().sender.sendMessage(
-                                VineriumLib.inst().langManager.parseLangString(
-                                    VineriumEnforcement.inst(),
+                                AsureLib.inst().langManager.parseLangString(
+                                    AsureEnforcement.inst(),
                                     "not_enough_arguments"
                                 )
                             )
@@ -38,7 +37,7 @@ class VinEnforcementCommands {
                         .then(
                             Commands.literal("reload")
                                 .requires { predicate: CommandSourceStack ->
-                                    predicate.sender.hasPermission("vineriumenforcement.admin")
+                                    predicate.sender.hasPermission("asureenforcement.admin")
                                 }
                                 .executes { ctx: CommandContext<CommandSourceStack> ->
                                     reloadCommand(
@@ -50,7 +49,7 @@ class VinEnforcementCommands {
                         .then(
                             Commands.literal("cleartasks")
                                 .requires { predicate: CommandSourceStack ->
-                                    predicate.sender.hasPermission("vineriumenforcement.admin")
+                                    predicate.sender.hasPermission("asureenforcement.admin")
                                 }
                                 .executes { ctx: CommandContext<CommandSourceStack> ->
                                     clearTasksCommand(
@@ -62,7 +61,7 @@ class VinEnforcementCommands {
                         .then(
                             Commands.literal("jail")
                                 .requires { predicate: CommandSourceStack ->
-                                    predicate.sender.hasPermission("vineriumenforcement.jail")
+                                    predicate.sender.hasPermission("asureenforcement.jail")
                                 }
                                 .then(
                                     Commands.argument("player", ArgumentTypes.player())
@@ -85,7 +84,7 @@ class VinEnforcementCommands {
                         .then(
                             Commands.literal("unjail")
                                 .requires { predicate: CommandSourceStack ->
-                                    predicate.sender.hasPermission("vineriumenforcement.unjail")
+                                    predicate.sender.hasPermission("asureenforcement.unjail")
                                 }
                                 .then(
                                     Commands.argument("player", ArgumentTypes.player())
@@ -108,19 +107,19 @@ class VinEnforcementCommands {
         }
 
         private fun reloadCommand(sender: CommandSender) {
-            VineriumEnforcement.inst().loadData()
-            sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "command_reload_message"))
+            AsureEnforcement.inst().loadData()
+            sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "command_reload_message"))
         }
 
         private fun clearTasksCommand(sender: CommandSender) {
             EnforcementManager.instance.clearTasks()
-            sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "command_clear_tasks_message"))
+            sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "command_clear_tasks_message"))
         }
 
         private fun jailPlayerCommand(sender: CommandSender, player : Player, time: Int)  {
 
-            if (!VineriumEnforcement.inst().worldGuardEnabled) {
-                sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_no_worldguard"))
+            if (!AsureEnforcement.inst().worldGuardEnabled) {
+                sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_no_worldguard"))
                 return
             }
 
@@ -129,29 +128,29 @@ class VinEnforcementCommands {
 
             val cuffedPlayerData = EnforcementManager.instance.handcuffedPlayers[player.uniqueId]
             if (cuffedPlayerData == null) {
-                sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_player_not_cuffed",player.name))
+                sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_player_not_cuffed",player.name))
                 return
             }
 
-            val maxJailTime = VineriumEnforcement.inst().config.getInt("jail.max_time",240)
+            val maxJailTime = AsureEnforcement.inst().config.getInt("jail.max_time",240)
             if (time > maxJailTime) {
-                sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_wrong_time",maxJailTime.toString()))
+                sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_wrong_time",maxJailTime.toString()))
                 return
             }
 
-            val jailName = container.createQuery().queryValue(localPlayer.location,localPlayer, VinEnforcementFlags.ENFORCEMENT_JAIL_REGION)
+            val jailName = container.createQuery().queryValue(localPlayer.location,localPlayer, AsureEnforcementFlags.ENFORCEMENT_JAIL_REGION)
             if (jailName == null) {
-                sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_wrong_region"))
+                sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_wrong_region"))
                 return
             }
 
-            val defaultCellName = VineriumEnforcement.inst().config.getString("jail.default_cell_name","1")!!
+            val defaultCellName = AsureEnforcement.inst().config.getString("jail.default_cell_name","1")!!
 
-            val silent = if (VineriumEnforcement.inst().config.getBoolean("jail.silent", true))
-                VineriumEnforcement.inst().config.getString("jail.silent_format","-s")!!
+            val silent = if (AsureEnforcement.inst().config.getBoolean("jail.silent", true))
+                AsureEnforcement.inst().config.getString("jail.silent_format","-s")!!
             else ""
 
-            val jailCommand = VineriumEnforcement.inst().config.getString("jail.command","jail %player_name% %time% %jail_name% %cell_name% %silent%")!!
+            val jailCommand = AsureEnforcement.inst().config.getString("jail.command","jail %player_name% %time% %jail_name% %cell_name% %silent%")!!
                 .replace("%player_name%", player.name)
                 .replace("%time%", time.toString())
                 .replace("%jail_name%",jailName)
@@ -160,19 +159,19 @@ class VinEnforcementCommands {
 
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().consoleSender,jailCommand)
 
-            sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_receiver_message",sender.name,time.toString()))
-            sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "jail_success_message",player.name,time.toString()))
+            sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_receiver_message",sender.name,time.toString()))
+            sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "jail_success_message",player.name,time.toString()))
 
         }
 
         private fun unjailPlayerCommand(sender: CommandSender, player : Player)  {
 
-            val unjailCommand = VineriumEnforcement.inst().config.getString("jail.unjail_command","unjail %player_name%")!!
+            val unjailCommand = AsureEnforcement.inst().config.getString("jail.unjail_command","unjail %player_name%")!!
                 .replace("%player_name%", player.name)
 
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().consoleSender,unjailCommand)
 
-            sender.sendMessage(VineriumLib.inst().langManager.parseLangString(VineriumEnforcement.inst(), "unjail_success_message",player.name))
+            sender.sendMessage(AsureLib.inst().langManager.parseLangString(AsureEnforcement.inst(), "unjail_success_message",player.name))
 
         }
 

@@ -19,12 +19,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
-    compileOnly(files("../VineriumLib/build/libs/VineriumLib-1.0-SNAPSHOT.jar"))
+    compileOnly("io.papermc.paper:paper-api:26.2+")
+    compileOnly(files("../AsureLib/build/libs/AsureLib-1.0-SNAPSHOT.jar"))
 
     compileOnly("io.lumine:Mythic-Dist:5.+")
     compileOnly("me.clip:placeholderapi:2.+") // repo.extendedclip.com
-    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.18-SNAPSHOT")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.19-SNAPSHOT")
 }
 
 tasks {

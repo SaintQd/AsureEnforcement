@@ -1,9 +1,9 @@
-package org.saintqd.vineriumenforcement.worldguard
+package org.saintqd.asureenforcement.worldguard
 
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.flags.StringFlag
 
-class VinEnforcementFlags {
+class AsureEnforcementFlags {
 
     companion object {
         val ENFORCEMENT_JAIL_REGION : StringFlag = StringFlag("enforcement-jail-region")

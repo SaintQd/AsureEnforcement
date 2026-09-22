@@ -1,11 +1,11 @@
-name: VineriumEnforcement
+name: AsureEnforcement
 version: '1.0'
 author: SaintQd
-main: org.saintqd.vineriumenforcement.VineriumEnforcement
-api-version: 26.1.2
-description: VineriumEnforcement Plugin
+main: org.saintqd.asureenforcement.AsureEnforcement
+api-version: '26.2'
+description: AsureEnforcement Plugin
 dependencies:
   server:
-    VineriumLib:
+    AsureLib:
       load: BEFORE
       required: true

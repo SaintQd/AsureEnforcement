@@ -1,9 +1,9 @@
-package org.saintqd.vineriumenforcement.utils
+package org.saintqd.asureenforcement.utils
 
 import org.bukkit.entity.Entity
 import kotlin.math.abs
 
-class VinEnforcementUtils {
+class AsureEnforcementUtils {
 
     companion object {
 

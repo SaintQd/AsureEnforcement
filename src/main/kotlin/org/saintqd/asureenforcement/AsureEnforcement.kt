@@ -1,24 +1,24 @@
-package org.saintqd.vineriumenforcement
+package org.saintqd.asureenforcement
 
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import org.saintqd.vineriumenforcement.commands.VinEnforcementCommands
-import org.saintqd.vineriumenforcement.listeners.PlayerListener
-import org.saintqd.vineriumenforcement.managers.EnforcementManager
-import org.saintqd.vineriumenforcement.worldguard.VinEnforcementFlags
-import org.saintqd.vineriumlib.VineriumLib
-import org.saintqd.vineriumlib.utils.ResourceUtils
-import org.saintqd.vineriumlib.utils.VinUtils
+import org.saintqd.asureenforcement.commands.AsureEnforcementCommands
+import org.saintqd.asureenforcement.listeners.PlayerListener
+import org.saintqd.asureenforcement.managers.EnforcementManager
+import org.saintqd.asureenforcement.worldguard.AsureEnforcementFlags
+import org.saintqd.asurelib.AsureLib
+import org.saintqd.asurelib.utils.AsureUtils
+import org.saintqd.asurelib.utils.ResourceUtils
 import java.io.File
 
-class VineriumEnforcement : JavaPlugin() {
+class AsureEnforcement : JavaPlugin() {
 
     var worldGuardEnabled = false
 
     companion object {
-        private var plugin : VineriumEnforcement? = null
+        private var plugin : AsureEnforcement? = null
 
-        fun inst() : VineriumEnforcement {
+        fun inst() : AsureEnforcement {
             return plugin!!
         }
     }
@@ -29,8 +29,8 @@ class VineriumEnforcement : JavaPlugin() {
         val worldGuard = Bukkit.getPluginManager().getPlugin("WorldGuard")
         if (worldGuard != null) {
             worldGuardEnabled = true
-            VinUtils.sendDebugMessage(0, "WorldGuard found, compatibility features enabled.")
-            VinEnforcementFlags.registerFlags()
+            AsureUtils.sendDebugMessage(0, "WorldGuard found, compatibility features enabled.")
+            AsureEnforcementFlags.registerFlags()
         }
     }
 
@@ -39,7 +39,7 @@ class VineriumEnforcement : JavaPlugin() {
 
         loadData()
 
-        VinEnforcementCommands.setupCommands(this)
+        AsureEnforcementCommands.setupCommands(this)
 
         server.pluginManager.registerEvents(PlayerListener(), this)
     }
@@ -56,11 +56,11 @@ class VineriumEnforcement : JavaPlugin() {
         reloadConfig()
 
         val selectedLang = getConfig().getString("language")
-        val langLines = VineriumLib.inst().langManager.loadLanguageFile(
+        val langLines = AsureLib.inst().langManager.loadLanguageFile(
             this,
             dataFolder.path + File.separator + "lang" + File.separator + selectedLang + ".yml"
         )
-        VineriumLib.inst().langManager.registerLangLines(langLines)
+        AsureLib.inst().langManager.registerLangLines(langLines)
 
         EnforcementManager.instance.loadParams()
     }

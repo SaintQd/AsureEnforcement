@@ -1,4 +1,4 @@
-package org.saintqd.vineriumenforcement.managers
+package org.saintqd.asureenforcement.managers
 
 import com.destroystokyo.paper.ParticleBuilder
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -12,11 +12,10 @@ import org.bukkit.entity.Display
 import org.bukkit.entity.Entity
 import org.bukkit.entity.TextDisplay
 import org.bukkit.scheduler.BukkitTask
-import org.saintqd.vineriumenforcement.VineriumEnforcement
-import org.saintqd.vineriumenforcement.utils.VinEnforcementUtils
-import org.saintqd.vineriumlib.managers.LangManager
-import org.saintqd.vineriumlib.utils.VinUtils
-import org.w3c.dom.Text
+import org.saintqd.asureenforcement.AsureEnforcement
+import org.saintqd.asureenforcement.utils.AsureEnforcementUtils
+import org.saintqd.asurelib.managers.LangManager
+import org.saintqd.asurelib.utils.AsureUtils
 import java.util.*
 import kotlin.math.ceil
 
@@ -25,10 +24,10 @@ class EnforcementManager {
     companion object {
         val instance : EnforcementManager = EnforcementManager()
 
-        val BATON_KEY = NamespacedKey(VineriumEnforcement.inst(),"baton")
-        val HANDCUFFS_KEY = NamespacedKey(VineriumEnforcement.inst(),"handcuffs")
-        val HANDCUFFS_KEYS_KEY = NamespacedKey(VineriumEnforcement.inst(),"handcuffs_keys")
-        val CUFFBREAKERS_KEY = NamespacedKey(VineriumEnforcement.inst(),"cuffbreakers")
+        val BATON_KEY = NamespacedKey(AsureEnforcement.inst(),"baton")
+        val HANDCUFFS_KEY = NamespacedKey(AsureEnforcement.inst(),"handcuffs")
+        val HANDCUFFS_KEYS_KEY = NamespacedKey(AsureEnforcement.inst(),"handcuffs_keys")
+        val CUFFBREAKERS_KEY = NamespacedKey(AsureEnforcement.inst(),"cuffbreakers")
     }
 
     var handcuffsCheckTask : BukkitTask? = null
@@ -65,14 +64,14 @@ class EnforcementManager {
 
     fun loadParams() {
 
-        val breakDistance = VineriumEnforcement.inst().config.getDouble("handcuffs.break_distance",15.0)
+        val breakDistance = AsureEnforcement.inst().config.getDouble("handcuffs.break_distance",15.0)
 
-        val taskCheckPeriod = VineriumEnforcement.inst().config.getLong("handcuffs.break_task_check_period",40L)
-        val textDisplayTaskPeriod = VineriumEnforcement.inst().config.getLong("text_display.text_display_task_period",10L)
-        val textDisplayHeightOffset = VineriumEnforcement.inst().config.getDouble("text_display.height_offset",1.8)
+        val taskCheckPeriod = AsureEnforcement.inst().config.getLong("handcuffs.break_task_check_period",40L)
+        val textDisplayTaskPeriod = AsureEnforcement.inst().config.getLong("text_display.text_display_task_period",10L)
+        val textDisplayHeightOffset = AsureEnforcement.inst().config.getDouble("text_display.height_offset",1.8)
 
-        val escortTaskPeriod = VineriumEnforcement.inst().config.getLong("escort.task_period",5L)
-        val minPullDistance = VineriumEnforcement.inst().config.getDouble("handcuffs.min_pull_distance",2.0)
+        val escortTaskPeriod = AsureEnforcement.inst().config.getLong("escort.task_period",5L)
+        val minPullDistance = AsureEnforcement.inst().config.getDouble("handcuffs.min_pull_distance",2.0)
 
         val particleBuilder = ParticleBuilder(Particle.DUST)
             .color(Color.GRAY)
@@ -80,7 +79,7 @@ class EnforcementManager {
             .offset(0.1,0.1,0.1)
 
         handcuffsCheckTask?.cancel()
-        handcuffsCheckTask = Bukkit.getScheduler().runTaskTimer(VineriumEnforcement.inst(),Runnable {
+        handcuffsCheckTask = Bukkit.getScheduler().runTaskTimer(AsureEnforcement.inst(),Runnable {
             val handcuffedPlayersToRemove = hashSetOf<UUID>()
             for (handcuffedPlayerData in handcuffedPlayers.values) {
                 val handcuffedPlayer = Bukkit.getPlayer(handcuffedPlayerData.uuid) ?: continue
@@ -95,7 +94,7 @@ class EnforcementManager {
                     }
                     else {
                         if (handcuffedPlayerData.isPulled && handcuffedPlayer.world == cufferPlayer.world && distance > minPullDistance) {
-                            VinEnforcementUtils.pullEntity(cufferPlayer,handcuffedPlayer,5.0)
+                            AsureEnforcementUtils.pullEntity(cufferPlayer,handcuffedPlayer,5.0)
 
                             val distanceBetween = 0.25
                             val pointsAmount = (ceil(distance / distanceBetween) - 1).toInt()
@@ -124,7 +123,7 @@ class EnforcementManager {
         },taskCheckPeriod,taskCheckPeriod)
 
         escortTask?.cancel()
-        escortTask = Bukkit.getScheduler().runTaskTimer(VineriumEnforcement.inst(),Runnable {
+        escortTask = Bukkit.getScheduler().runTaskTimer(AsureEnforcement.inst(),Runnable {
             for (handcuffedPlayerData in handcuffedPlayers.values) {
                 val handcuffedPlayer = Bukkit.getPlayer(handcuffedPlayerData.uuid) ?: continue
                 if (!handcuffedPlayerData.isPulled) continue
@@ -134,7 +133,7 @@ class EnforcementManager {
                     else Double.MAX_VALUE
 
                     if (distance <= breakDistance && handcuffedPlayer.world == cufferPlayer.world && distance > minPullDistance) {
-                        VinEnforcementUtils.pullEntity(cufferPlayer,handcuffedPlayer,5.0)
+                        AsureEnforcementUtils.pullEntity(cufferPlayer,handcuffedPlayer,5.0)
                         val distanceBetween = 0.25
                         val pointsAmount = (ceil(distance / distanceBetween) - 1).toInt()
 
@@ -156,7 +155,7 @@ class EnforcementManager {
         },escortTaskPeriod,escortTaskPeriod)
 
         textDisplayTask?.cancel()
-        textDisplayTask = Bukkit.getScheduler().runTaskTimer(VineriumEnforcement.inst(),Runnable {
+        textDisplayTask = Bukkit.getScheduler().runTaskTimer(AsureEnforcement.inst(),Runnable {
             for (handcuffedPlayerData in handcuffedPlayers.values) {
                 val handcuffedPlayer = Bukkit.getPlayer(handcuffedPlayerData.uuid) ?: continue
                 if (handcuffedPlayerData.textDisplay.isValid) {
@@ -180,13 +179,13 @@ class EnforcementManager {
 
     fun createTextDisplay(entity : Entity) : TextDisplay {
         val textDisplay = entity.world.spawn(entity.location, TextDisplay::class.java, function@ { textDisplay ->
-            textDisplay.text(LangManager.INSTANCE.parseLangString(VineriumEnforcement.inst(),"handcuffs_title"))
+            textDisplay.text(LangManager.INSTANCE.parseLangString(AsureEnforcement.inst(),"handcuffs_title"))
             textDisplay.isDefaultBackground = true
             textDisplay.isSeeThrough = false
             textDisplay.billboard = Display.Billboard.CENTER
             textDisplay.isPersistent = false
 
-            val textDisplayHeightOffset = VineriumEnforcement.inst().config.getDouble("text_display.height_offset",2.5)
+            val textDisplayHeightOffset = AsureEnforcement.inst().config.getDouble("text_display.height_offset",2.5)
             val textDisplayLoc = entity.location.clone()
             textDisplayLoc.add(0.0,textDisplayHeightOffset,0.0)
             textDisplay.teleport(textDisplayLoc)
@@ -196,15 +195,15 @@ class EnforcementManager {
 
     fun advanceBreakProgress(cuffedPlayer: CuffedPlayer, amount : Int) : Boolean {
         val player = Bukkit.getPlayer(cuffedPlayer.uuid) ?: return false
-        val breakTime = VineriumEnforcement.inst().config.getLong("handcuffs.break_time",1200L)
+        val breakTime = AsureEnforcement.inst().config.getLong("handcuffs.break_time",1200L)
         var currentBreakProgress = cuffedPlayer.breakProgress
         currentBreakProgress += amount
         cuffedPlayer.breakProgress = currentBreakProgress
-        cuffedPlayer.lastBreakAttempt = VinUtils.getCurrentTick()
+        cuffedPlayer.lastBreakAttempt = AsureUtils.getCurrentTick()
 
-        val progressFormat = VineriumEnforcement.inst().config.getString("handcuffs.break_progress_format","[||||||||||||||||||||]")!!
-        val completedProgressColor = VineriumEnforcement.inst().config.getString("handcuffs.break_completed_progress_color","<red>")!!
-        val remainingProgressColor = VineriumEnforcement.inst().config.getString("handcuffs.break_remaining_progress_color","<gray>")!!
+        val progressFormat = AsureEnforcement.inst().config.getString("handcuffs.break_progress_format","[||||||||||||||||||||]")!!
+        val completedProgressColor = AsureEnforcement.inst().config.getString("handcuffs.break_completed_progress_color","<red>")!!
+        val remainingProgressColor = AsureEnforcement.inst().config.getString("handcuffs.break_remaining_progress_color","<gray>")!!
 
         val progressFormatLength = progressFormat.length
         val progressCoef = currentBreakProgress.toDouble() / breakTime.toDouble()
@@ -219,7 +218,7 @@ class EnforcementManager {
 
         if (currentBreakProgress >= breakTime) {
             cuffedPlayer.textDisplay.remove()
-            player.sendMessage { LangManager.INSTANCE.parseLangString(VineriumEnforcement.inst(),
+            player.sendMessage { LangManager.INSTANCE.parseLangString(AsureEnforcement.inst(),
                 "handcuffs_break_message") }
             return true
         }
